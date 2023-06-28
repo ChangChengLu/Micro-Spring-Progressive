@@ -10,6 +10,7 @@
     <version>1.0.0</version>
     <modules>
         <module>micro-spring-step-01</module>
+        <module>micro-spring-step-02</module>
     </modules>
 
     <properties>

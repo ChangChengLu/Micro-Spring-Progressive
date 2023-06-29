@@ -11,6 +11,7 @@
     <modules>
         <module>micro-spring-step-01</module>
         <module>micro-spring-step-02</module>
+        <module>micro-spring-step-03</module>
     </modules>
 
     <properties>
@@ -30,5 +31,12 @@
             <version>4.13.2</version>
             <scope>test</scope>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/cglib/cglib-nodep -->
+        <dependency>
+            <groupId>cglib</groupId>
+            <artifactId>cglib-nodep</artifactId>
+            <version>3.3.0</version>
+        </dependency>
+
     </dependencies>
 </project>

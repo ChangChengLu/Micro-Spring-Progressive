@@ -12,6 +12,7 @@
         <module>micro-spring-step-01</module>
         <module>micro-spring-step-02</module>
         <module>micro-spring-step-03</module>
+        <module>micro-spring-step-04</module>
     </modules>
 
     <properties>
@@ -36,6 +37,11 @@
             <groupId>cglib</groupId>
             <artifactId>cglib-nodep</artifactId>
             <version>3.3.0</version>
+        </dependency>
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-all</artifactId>
+            <version>5.5.0</version>
         </dependency>
 
     </dependencies>

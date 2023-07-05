@@ -1,21 +1,22 @@
 package com.cclu.springframework.beans.factory.support;
 
+import cn.hutool.core.bean.BeanException;
 import cn.hutool.core.bean.BeanUtil;
 import com.cclu.springframework.beans.PropertyValue;
 import com.cclu.springframework.beans.PropertyValues;
-import com.cclu.springframework.beans.exception.BeanException;
 import com.cclu.springframework.beans.factory.config.BeanDefinition;
 import com.cclu.springframework.beans.factory.config.BeanReference;
 import lombok.Data;
+import lombok.Getter;
 
 import java.lang.reflect.Constructor;
 
 /**
  * @author ChangCheng Lu
- * @date 2023/7/4 23:09
+ * @date 2023/7/5 10:17
  */
 @Data
-public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFactory{
+public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFactory {
 
     private InstantiationStrategy instantiationStrategy = new CglibSubclassingInstantiationStrategy();
 

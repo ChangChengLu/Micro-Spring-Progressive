@@ -1,7 +1,8 @@
 package com.cclu.springframework.beans.factory.support;
 
-import com.cclu.springframework.beans.exception.BeanException;
+import cn.hutool.core.bean.BeanException;
 import com.cclu.springframework.beans.factory.config.BeanDefinition;
+import lombok.Data;
 import lombok.Getter;
 
 import java.util.HashMap;
@@ -9,7 +10,7 @@ import java.util.Map;
 
 /**
  * @author ChangCheng Lu
- * @date 2023/7/4 23:37
+ * @date 2023/7/5 10:20
  */
 @Getter
 public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFactory implements BeanDefinitionRegistry {
@@ -27,7 +28,7 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 
     @Override
     public void registryBeanDefinition(String beanName, BeanDefinition beanDefinition) {
-       beanDefinitionMap.put(beanName, beanDefinition);
+        beanDefinitionMap.put(beanName, beanDefinition);
     }
 
 }

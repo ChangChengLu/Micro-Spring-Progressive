@@ -13,6 +13,7 @@
         <module>micro-spring-step-02</module>
         <module>micro-spring-step-03</module>
         <module>micro-spring-step-04</module>
+        <module>micro-spring-step-05</module>
     </modules>
 
     <properties>

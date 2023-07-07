@@ -9,7 +9,7 @@ import java.util.List;
  */
 public class PropertyValues {
 
-    private List<PropertyValue> propertyValueList = new ArrayList<>();
+    private final List<PropertyValue> propertyValueList = new ArrayList<>();
 
     public void addPropertyValue(PropertyValue pv) {
         propertyValueList.add(pv);

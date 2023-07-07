@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans>
+
+    <bean id="userDao" class="com.cclu.springframework.beans.UserDao"/>
+
+    <bean id="userService" class="com.cclu.springframework.beans.UserService">
+        <property name="uId" value="1001"/>
+        <property name="userDao" ref="userDao"/>
+    </bean>
+
+</beans>

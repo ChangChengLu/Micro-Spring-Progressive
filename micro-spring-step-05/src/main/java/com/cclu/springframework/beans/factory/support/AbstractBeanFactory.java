@@ -21,14 +21,19 @@ public abstract class AbstractBeanFactory extends DefaultSingletonRegistry imple
         return doGetBean(beanName, args);
     }
 
-    protected Object doGetBean(String beanName, Object... args) {
+    @Override
+    public <T> T getBean(String beanName, Class<T> requiredType) throws BeansException {
+        return (T) getBean(beanName);
+    }
+
+    protected <T> T doGetBean(String beanName, Object... args) {
         Object singletonBean = getSingleton(beanName);
         if (singletonBean != null) {
-            return singletonBean;
+            return (T) singletonBean;
         }
 
         BeanDefinition beanDefinition = getBeanDefinition(beanName);
-        return createBean(beanName, beanDefinition, args);
+        return (T) createBean(beanName, beanDefinition, args);
     }
 
     protected abstract BeanDefinition getBeanDefinition(String beanName);

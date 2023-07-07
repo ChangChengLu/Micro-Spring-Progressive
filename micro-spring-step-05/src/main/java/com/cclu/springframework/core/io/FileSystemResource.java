@@ -28,7 +28,7 @@ public class FileSystemResource implements Resource {
     }
 
     @Override
-    public InputStream getInputSteam() throws IOException {
+    public InputStream getInputStream() throws IOException {
         return new FileInputStream(file);
     }
 

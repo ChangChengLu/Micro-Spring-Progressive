@@ -11,6 +11,7 @@
         <module name="micro-spring-step-02" />
         <module name="micro-spring-step-05" />
         <module name="micro-spring-step-04" />
+        <module name="micro-spring-step-06" />
         <module name="micro-spring-step-01" />
       </profile>
     </annotationProcessing>

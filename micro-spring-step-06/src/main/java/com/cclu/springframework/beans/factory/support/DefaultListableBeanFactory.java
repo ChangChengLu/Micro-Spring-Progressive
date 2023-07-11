@@ -4,6 +4,7 @@ import cn.hutool.core.bean.BeanException;
 import com.cclu.springframework.beans.BeansException;
 import com.cclu.springframework.beans.factory.ConfigurableListableBeanFactory;
 import com.cclu.springframework.beans.factory.config.BeanDefinition;
+import com.cclu.springframework.beans.factory.config.BeanPostProcessor;
 import lombok.Getter;
 
 import java.util.HashMap;
@@ -28,6 +29,11 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
             throw new BeanException("No bean named '" + beanName + "' is defined");
         }
         return beanDefinition;
+    }
+
+    @Override
+    public void preInstantiateSingletons() throws BeansException {
+        beanDefinitionMap.keySet().forEach(this::getBean);
     }
 
     @Override

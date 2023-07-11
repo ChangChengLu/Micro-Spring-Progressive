@@ -3,12 +3,20 @@ package com.cclu.springframework.beans.factory.support;
 import com.cclu.springframework.beans.BeansException;
 import com.cclu.springframework.beans.factory.BeanFactory;
 import com.cclu.springframework.beans.factory.config.BeanDefinition;
+import com.cclu.springframework.beans.factory.config.BeanPostProcessor;
+import com.cclu.springframework.beans.factory.config.ConfigurableBeanFactory;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author ChangCheng Lu
  * @date 2023/7/9 10:05
  */
-public abstract class AbstractBeanFactory extends DefaultSingletonRegistry implements BeanFactory  {
+public abstract class AbstractBeanFactory extends DefaultSingletonRegistry implements ConfigurableBeanFactory {
+
+    /** BeanPostProcessors to apply in createBean */
+    private final List<BeanPostProcessor> beanPostProcessors = new ArrayList<BeanPostProcessor>();
 
     @Override
     public Object getBean(String beanName) throws BeansException {
@@ -50,4 +58,17 @@ public abstract class AbstractBeanFactory extends DefaultSingletonRegistry imple
      */
     protected abstract Object creatBean(String beanName, BeanDefinition beanDefinition, Object... args);
 
+    @Override
+    public void addBeanPostProcessor(BeanPostProcessor beanPostProcessor) {
+        this.beanPostProcessors.remove(beanPostProcessor);
+        this.beanPostProcessors.add(beanPostProcessor);
+    }
+
+    /**
+     * Return the list of BeanPostProcessors that will get applied
+     * to beans created with this factory.
+     */
+    public List<BeanPostProcessor> getBeanPostProcessors() {
+        return this.beanPostProcessors;
+    }
 }

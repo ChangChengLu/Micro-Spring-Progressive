@@ -2,12 +2,13 @@ package com.cclu.springframework.beans.factory.support;
 
 import cn.hutool.core.bean.BeanException;
 import cn.hutool.core.bean.BeanUtil;
+import com.cclu.springframework.beans.BeansException;
 import com.cclu.springframework.beans.PropertyValue;
 import com.cclu.springframework.beans.PropertyValues;
 import com.cclu.springframework.beans.factory.config.AutowireCapableBeanFactory;
 import com.cclu.springframework.beans.factory.config.BeanDefinition;
 import com.cclu.springframework.beans.factory.config.BeanReference;
-import lombok.Setter;
+import lombok.Data;
 
 import java.lang.reflect.Constructor;
 
@@ -15,7 +16,7 @@ import java.lang.reflect.Constructor;
  * @author ChangCheng Lu
  * @date 2023/7/9 10:23
  */
-@Setter
+@Data
 public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFactory implements AutowireCapableBeanFactory {
 
     private InstantiationStrategy instantiationStrategy = new CglibSubclassingInstantiationStrategy();
@@ -61,5 +62,33 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
         } catch (Exception e) {
             throw new BeanException("Error setting property values：" + beanName);
         }
+    }
+
+    private Object initializeBean(String beanName, Object bean, BeanDefinition beanDefinition) {
+        // 1. 执行 BeanPostProcessor Before 处理
+        Object wrappedBean = applyBeanPostProcessorsBeforeInitialization(bean, beanName);
+
+        // 待完成内容：invokeInitMethods(beanName, wrappedBean, beanDefinition);
+        invokeInitMethods(beanName, wrappedBean, beanDefinition);
+
+        // 2. 执行 BeanPostProcessor After 处理
+        wrappedBean = applyBeanPostProcessorsAfterInitialization(bean, beanName);
+        return wrappedBean;
+    }
+
+    private void invokeInitMethods(String beanName, Object wrappedBean, BeanDefinition beanDefinition) {
+
+    }
+
+    @Override
+    public Object applyBeanPostProcessorsBeforeInitialization(Object existingBean, String beanName) throws BeansException {
+        Object result = existingBean;
+
+        return null;
+    }
+
+    @Override
+    public Object applyBeanPostProcessorsAfterInitialization(Object existingBean, String beanName) throws BeansException {
+        return null;
     }
 }

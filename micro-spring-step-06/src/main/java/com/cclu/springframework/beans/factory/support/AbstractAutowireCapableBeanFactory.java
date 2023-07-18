@@ -7,6 +7,7 @@ import com.cclu.springframework.beans.PropertyValue;
 import com.cclu.springframework.beans.PropertyValues;
 import com.cclu.springframework.beans.factory.config.AutowireCapableBeanFactory;
 import com.cclu.springframework.beans.factory.config.BeanDefinition;
+import com.cclu.springframework.beans.factory.config.BeanPostProcessor;
 import com.cclu.springframework.beans.factory.config.BeanReference;
 import lombok.Data;
 
@@ -27,9 +28,12 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
         try {
             bean = createBeanInstance(beanName, beanDefinition, args);
             applyBeanValues(beanName, bean, beanDefinition);
+            // 执行 Bean 的初始化方法和 BeanPostProcessor 的前置和后置处理方法
+            bean = initializeBean(beanName, bean, beanDefinition);
         } catch (Exception e) {
             throw new BeanException("Instantiation of bean failed", e);
         }
+        addSingleton(beanName, bean);
         return bean;
     }
 
@@ -40,9 +44,10 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
         for (Constructor<?> constructor : constructors) {
             if (null != args && constructor.getParameterTypes().length == args.length) {
                 constructorToUse = constructor;
+                break;
             }
         }
-        return instantiationStrategy.instantiate(beanName, beanDefinition, constructorToUse, args);
+        return getInstantiationStrategy().instantiate(beanName, beanDefinition, constructorToUse, args);
     }
 
     private void applyBeanValues(String beanName, Object bean, BeanDefinition beanDefinition) {
@@ -83,12 +88,26 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
     @Override
     public Object applyBeanPostProcessorsBeforeInitialization(Object existingBean, String beanName) throws BeansException {
         Object result = existingBean;
-
-        return null;
+        for (BeanPostProcessor processor : getBeanPostProcessors()) {
+            Object current = processor.postProcessBeforeInitialization(result, beanName);
+            if (null == current) {
+                return result;
+            }
+            result = current;
+        }
+        return result;
     }
 
     @Override
     public Object applyBeanPostProcessorsAfterInitialization(Object existingBean, String beanName) throws BeansException {
-        return null;
+        Object result = existingBean;
+        for (BeanPostProcessor processor : getBeanPostProcessors()) {
+            Object current = processor.postProcessAfterInitialization(result, beanName);
+            if (null == current) {
+                return result;
+            }
+            result = current;
+        }
+        return result;
     }
 }

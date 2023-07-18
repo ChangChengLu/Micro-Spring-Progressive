@@ -43,8 +43,8 @@ public abstract class AbstractBeanFactory extends DefaultSingletonRegistry imple
         if (singleton != null) {
             return (T) singleton;
         }
-
-        return null;
+        BeanDefinition beanDefinition = getBeanDefinition(beanName);
+        return (T) creatBean(beanName, beanDefinition, args);
     }
 
     protected abstract BeanDefinition getBeanDefinition(String beanName);
@@ -56,7 +56,7 @@ public abstract class AbstractBeanFactory extends DefaultSingletonRegistry imple
      * @param args 参数初始化
      * @return
      */
-    protected abstract Object creatBean(String beanName, BeanDefinition beanDefinition, Object... args);
+    protected abstract Object creatBean(String beanName, BeanDefinition beanDefinition, Object... args) throws BeansException;
 
     @Override
     public void addBeanPostProcessor(BeanPostProcessor beanPostProcessor) {

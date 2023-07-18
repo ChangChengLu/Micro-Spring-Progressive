@@ -18,7 +18,17 @@ public class UserService {
     private UserDao userDao;
 
     public void queryUserInfo() {
-        System.out.println("查询用户信息：" + userDao.queryUserName(uId));
+        System.out.println(toString());
+        System.out.println();
     }
 
+    @Override
+    public String toString() {
+        return "UserService{" +
+                "uId='" + uId + '\'' +
+                ", userName='" + userDao.queryUserName(uId) + '\'' +
+                ", company='" + company + '\'' +
+                ", location='" + location + '\'' +
+                '}';
+    }
 }

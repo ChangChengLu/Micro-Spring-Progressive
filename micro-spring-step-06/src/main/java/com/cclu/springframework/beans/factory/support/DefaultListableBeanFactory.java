@@ -4,7 +4,6 @@ import cn.hutool.core.bean.BeanException;
 import com.cclu.springframework.beans.BeansException;
 import com.cclu.springframework.beans.factory.ConfigurableListableBeanFactory;
 import com.cclu.springframework.beans.factory.config.BeanDefinition;
-import com.cclu.springframework.beans.factory.config.BeanPostProcessor;
 import lombok.Getter;
 
 import java.util.HashMap;
@@ -20,6 +19,16 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
     private final Map<String, BeanDefinition> beanDefinitionMap = new HashMap<>();
 
     @Override
+    public void registryBeanDefinition(String beanName, BeanDefinition beanDefinition) {
+        beanDefinitionMap.put(beanName, beanDefinition);
+    }
+
+    @Override
+    public boolean containsBeanDefinition(String beanName) {
+        return beanDefinitionMap.containsKey(beanName);
+    }
+
+    @Override
     public BeanDefinition getBeanDefinition(String beanName) {
         if (beanName == null || "".equals(beanName)) {
             throw new BeansException("The parameters are not allowed to be null.");
@@ -32,16 +41,6 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
     }
 
     @Override
-    public void preInstantiateSingletons() throws BeansException {
-        beanDefinitionMap.keySet().forEach(this::getBean);
-    }
-
-    @Override
-    public boolean containsBeanDefinition(String beanName) {
-        return beanDefinitionMap.containsKey(beanName);
-    }
-
-    @Override
     public String[] getBeanDefinitionNames() {
         return beanDefinitionMap.keySet().toArray(new String[0]);
     }
@@ -51,16 +50,16 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
         Map<String, T> result = new HashMap<>();
         beanDefinitionMap.forEach((beanName, beanDefinition) -> {
             Class beanClass = beanDefinition.getBeanClass();
-            if (beanClass.isAssignableFrom(type)) {
+            if (type.isAssignableFrom(beanClass)) {
                 result.put(beanName, (T) getBean(beanName));
             }
         });
 
-        return null;
+        return result;
     }
 
     @Override
-    public void registryBeanDefinition(String beanName, BeanDefinition beanDefinition) {
-        beanDefinitionMap.put(beanName, beanDefinition);
+    public void preInstantiateSingletons() throws BeansException {
+        beanDefinitionMap.keySet().forEach(this::getBean);
     }
 }

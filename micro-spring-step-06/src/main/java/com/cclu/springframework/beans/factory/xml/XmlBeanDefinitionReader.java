@@ -33,8 +33,10 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 
     @Override
     public void loadBeanDefinitions(Resource resource) throws BeansException {
-        try (InputStream inputSteam = resource.getInputStream()) {
-            doLoadBeanDefinition(inputSteam);
+        try {
+            try (InputStream inputStream = resource.getInputStream()) {
+                doLoadBeanDefinition(inputStream);
+            }
         } catch (IOException | ClassNotFoundException e) {
             throw new BeansException("IOException parsing XML document from " + resource, e);
         }
@@ -67,10 +69,12 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
         NodeList childNodes = root.getChildNodes();
 
         for (int i = 0; i < childNodes.getLength(); i++) {
+            // 判断元素
             if (!(childNodes.item(i) instanceof Element)) {
                 continue;
             }
-            if (!"property".equals(childNodes.item(i).getNodeName())) {
+            // 判断对象
+            if (!"bean".equals(childNodes.item(i).getNodeName())) {
                 continue;
             }
 
@@ -79,25 +83,25 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
             String id = bean.getAttribute("id");
             String name = bean.getAttribute("name");
             String className = bean.getAttribute("class");
-            // 获取 class
+            // 获取 Class，方便获取类中的名称
             Class<?> clazz = Class.forName(className);
-            // 获取 beanName, 优先级 id > name
+            // 优先级 id > name
             String beanName = StrUtil.isNotEmpty(id) ? id : name;
             if (StrUtil.isEmpty(beanName)) {
                 beanName = StrUtil.lowerFirst(clazz.getSimpleName());
             }
 
-            // 定义 Bean
+            // 定义Bean
             BeanDefinition beanDefinition = new BeanDefinition(clazz);
-            // 读取属性并且填充
+            // 读取属性并填充
             for (int j = 0; j < bean.getChildNodes().getLength(); j++) {
                 if (!(bean.getChildNodes().item(j) instanceof Element)) {
                     continue;
                 }
-                if (!("property".equals(bean.getChildNodes().item(j).getNodeName()))) {
+                if (!"property".equals(bean.getChildNodes().item(j).getNodeName())) {
                     continue;
                 }
-                // 解析标签 property
+                // 解析标签：property
                 Element property = (Element) bean.getChildNodes().item(j);
                 String attrName = property.getAttribute("name");
                 String attrValue = property.getAttribute("value");
@@ -111,6 +115,7 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
             if (getRegistry().containsBeanDefinition(beanName)) {
                 throw new BeansException("Duplicate beanName[" + beanName + "] is not allowed");
             }
+            // 注册 BeanDefinition
             getRegistry().registryBeanDefinition(beanName, beanDefinition);
         }
     }

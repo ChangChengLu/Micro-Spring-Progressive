@@ -23,7 +23,4 @@ public class BeanDefinition {
         this.beanClass = beanClass;
         this.propertyValues = propertyValues != null ? propertyValues : new PropertyValues();
     }
-
-
-
 }

@@ -32,6 +32,10 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader i
         beanFactory.preInstantiateSingletons();
     }
 
+    protected abstract void refreshBeanFactory() throws BeansException;
+
+    protected abstract ConfigurableListableBeanFactory getBeanFactory();
+
     /**
      * beanFactory 中包含 beanPostProcessor, 所以此处需要标明 beanFactoryPostProcess
      *
@@ -56,10 +60,6 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader i
             beanFactory.addBeanPostProcessor(beanPostProcessor);
         }
     }
-
-    protected abstract void refreshBeanFactory() throws BeansException;
-
-    protected abstract ConfigurableListableBeanFactory getBeanFactory();
 
     @Override
     public Object getBean(String beanName) throws BeansException {

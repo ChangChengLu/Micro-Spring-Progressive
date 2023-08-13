@@ -1,0 +1,5 @@
+package com.cclu.springframework.beans.factory;/**
+ * @author ChangCheng Lu
+ * @date 2023/8/13 13:09
+ */public interface BeanFactoryAware {
+}

@@ -14,7 +14,7 @@ public class UserDao {
     public void initDataMethod() {
         System.out.println("执行：init-method");
         userMap.put("1001", "木子");
-        userMap.put("1002", "小艺");
+        userMap.put("1002", "小一");
         userMap.put("1003", "阿同");
     }
 

@@ -1,6 +1,4 @@
-package com.cclu.springframework.beans.factory.xml;
-
-import com.cclu.springframework.beans.factory.Aware;
+package com.cclu.springframework.beans.factory;
 
 /**
  * @author ChangCheng Lu
@@ -12,6 +10,10 @@ import com.cclu.springframework.beans.factory.Aware;
  */
 public interface BeanClassLoaderAware extends Aware {
 
-
+    /**
+     * set bean class loader
+     * @param classLoader
+     */
+    void setBeanClassLoader(ClassLoader classLoader);
 
 }

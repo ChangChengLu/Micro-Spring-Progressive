@@ -1,4 +1,4 @@
-package com.cclu.springframework.beans.factory.xml;
+package com.cclu.springframework.beans.factory;
 
 import com.cclu.springframework.beans.factory.Aware;
 

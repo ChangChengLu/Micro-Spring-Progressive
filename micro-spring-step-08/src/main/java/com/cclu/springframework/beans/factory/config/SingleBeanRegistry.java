@@ -1,4 +1,4 @@
-package com.cclu.springframework.beans.factory;
+package com.cclu.springframework.beans.factory.config;
 
 /**
  * @author ChangCheng Lu

@@ -1,5 +1,11 @@
-package com.cclu.springframework.beans.factory;/**
+package com.cclu.springframework.beans.factory;
+
+/**
  * @author ChangCheng Lu
  * @date 2023/8/11 14:15
- */public interface HierarchicalBeanFactory {
+ *
+ * Sub-interface implemented by bean factories that can be part
+ * of a hierarchy.
+ */
+public interface HierarchicalBeanFactory extends BeanFactory {
 }

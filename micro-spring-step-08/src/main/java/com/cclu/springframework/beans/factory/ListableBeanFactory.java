@@ -14,7 +14,7 @@ import java.util.Map;
  * preload all their bean definitions (such as XML-based factories) may implement
  * this interface.
  */
-public interface ListBeanFactory extends BeanFactory {
+public interface ListableBeanFactory extends BeanFactory {
 
     /**
      * 按照类型返回 Bean 实例

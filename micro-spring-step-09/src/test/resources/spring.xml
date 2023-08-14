@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans>
+
+    <bean id="userService" class="com.cclu.springframework.test.bean.UserService" scope="prototype">
+        <property name="uId" value="1001"/>
+        <property name="company" value="长承律师事务所"/>
+        <property name="location" value="上海"/>
+        <property name="userDao" ref="proxyUserDao"/>
+    </bean>
+
+    <bean id="proxyUserDao" class="com.cclu.springframework.test.bean.ProxyBeanFactory"/>
+
+</beans>

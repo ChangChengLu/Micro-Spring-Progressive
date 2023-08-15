@@ -18,12 +18,7 @@ import java.lang.reflect.Method;
 
 /**
  * @author ChangCheng Lu
- * @date 2023/8/11 14:51
- *
- * Abstract bean factory superclass that implements default bean creation,
- * with the full capabilities specified by the class.
- * Implements the {@link AutowireCapableBeanFactory}
- * interface in addition to AbstractBeanFactory's {@link #createBean} method.
+ * @date 2023/8/15 14:24
  */
 @EqualsAndHashCode(callSuper = true)
 @Data
@@ -35,19 +30,14 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
     protected Object createBean(String beanName, BeanDefinition beanDefinition, Object... args) throws BeansException {
         Object bean;
         try {
-            // instance the bean
             bean = createBeanInstance(beanName, beanDefinition, args);
-            // 给 Bean 填充属性
             applyPropertyValues(beanName, bean, beanDefinition);
-            // 执行 Bean 的初始化方法和 BeanPostProcessor 的前置和后置处理方法
             bean = initializeBean(beanName, bean, beanDefinition);
         } catch (Exception e) {
             throw new BeansException("Instantiation of bean failed", e);
         }
-        // 注册实现了 DisposableBean 接口的 Bean 对象
         registerDisposableBeanIfNecessary(beanName, bean, beanDefinition);
 
-        // 判断 SCOPE_SINGLETON、SCOPE_PROTOTYPE
         if (beanDefinition.isSingleton()) {
             addSingleton(beanName, bean);
         }
@@ -57,10 +47,9 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
     protected Object createBeanInstance(String beanName, BeanDefinition beanDefinition, Object[] args) {
         Constructor<?> constructorToUse = null;
         Class<?> beanClass = beanDefinition.getBeanClass();
-        Constructor<?>[] declaredConstructors = beanClass.getDeclaredConstructors();
-        for (Constructor<?> ctor : declaredConstructors) {
-            if (null != args && ctor.getParameterTypes().length == args.length) {
-                constructorToUse = ctor;
+        for (Constructor<?> constructor : beanClass.getDeclaredConstructors()) {
+            if (args != null && args.length == constructor.getParameterTypes().length) {
+                constructorToUse = constructor;
                 break;
             }
         }
@@ -68,26 +57,20 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
     }
 
     protected void applyPropertyValues(String beanName, Object bean, BeanDefinition beanDefinition) {
-        try {
-            PropertyValues propertyValues = beanDefinition.getPropertyValues();
-            for (PropertyValue propertyValue: propertyValues.getPropertyValueList()) {
-                String name = propertyValue.getName();
-                Object value = propertyValue.getValue();
+        PropertyValues propertyValues = beanDefinition.getPropertyValues();
+        for (PropertyValue propertyValue : propertyValues.getPropertyValueList()) {
+            String name = propertyValue.getName();
+            Object value = propertyValue.getValue();
 
-                if (value instanceof BeanReference) {
-                    BeanReference beanReference = (BeanReference) value;
-                    value = getBean(beanReference.getBeanName());
-                }
-                // apply the property value
-                BeanUtil.setFieldValue(bean, name, value);
+            if (value instanceof BeanReference) {
+                BeanReference beanReference = (BeanReference) value;
+                value = getBean(beanReference.getBeanName());
             }
-        } catch (Exception e) {
-            throw new BeansException("Error setting property values：" + beanName);
+            BeanUtil.setFieldValue(bean, name, value);
         }
     }
 
     private Object initializeBean(String beanName, Object bean, BeanDefinition beanDefinition) {
-        // invokeAwareMethods
         if (bean instanceof Aware) {
             if (bean instanceof BeanFactoryAware) {
                 ((BeanFactoryAware) bean).setBeanFactory(this);
@@ -99,7 +82,6 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
                 ((BeanNameAware) bean).setBeanName(beanName);
             }
         }
-
         // 1. 执行 BeanPostProcessor Before 处理
         Object wrappedBean = applyBeanPostProcessorsBeforeInitialization(bean, beanName);
         // 执行 Bean 对象的初始化方法
@@ -117,9 +99,8 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
         if (bean instanceof InitializingBean) {
             ((InitializingBean) bean).afterPropertiesSet();
         }
-        // 注解配置 init-method {判断是为了避免二次执行销毁}
         String initMethodName = beanDefinition.getInitMethodName();
-        if (StrUtil.isNotEmpty(initMethodName)) {
+        if (StrUtil.isNotBlank(initMethodName)) {
             Method initMethod = beanDefinition.getBeanClass().getMethod(initMethodName);
             initMethod.invoke(bean);
         }

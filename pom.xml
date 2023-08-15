@@ -18,6 +18,7 @@
         <module>micro-spring-step-07</module>
         <module>micro-spring-step-08</module>
         <module>micro-spring-step-09</module>
+        <module>micro-spring-step-10</module>
     </modules>
 
     <properties>

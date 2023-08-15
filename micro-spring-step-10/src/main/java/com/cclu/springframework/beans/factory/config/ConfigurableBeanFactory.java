@@ -4,7 +4,7 @@ import com.cclu.springframework.beans.factory.HierarchicalBeanFactory;
 
 /**
  * @author ChangCheng Lu
- * @date 2023/8/11 14:16
+ * @date 2023/8/15 13:44
  */
 public interface ConfigurableBeanFactory extends HierarchicalBeanFactory, SingleBeanRegistry {
 

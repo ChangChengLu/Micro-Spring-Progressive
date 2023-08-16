@@ -6,6 +6,8 @@ import com.cclu.springframework.context.ApplicationEvent;
 /**
  * @author ChangCheng Lu
  * @date 2023/8/15 15:25
+ *
+ * Base class for events raised for an <code>ApplicationContext</code>.
  */
 public class ApplicationContextEvent extends ApplicationEvent {
 

@@ -1,6 +1,8 @@
 package com.cclu.springframework.context;
 
+import com.cclu.springframework.beans.factory.HierarchicalBeanFactory;
 import com.cclu.springframework.beans.factory.ListableBeanFactory;
+import com.cclu.springframework.core.io.ResourceLoader;
 
 /**
  * @author ChangCheng Lu
@@ -10,5 +12,5 @@ import com.cclu.springframework.beans.factory.ListableBeanFactory;
  * This is read-only while the application is running, but may be
  * reloaded if the implementation supports this.
  */
-public interface ApplicationContext extends ListableBeanFactory {
+public interface ApplicationContext extends ListableBeanFactory, HierarchicalBeanFactory, ResourceLoader, ApplicationEventPublisher {
 }

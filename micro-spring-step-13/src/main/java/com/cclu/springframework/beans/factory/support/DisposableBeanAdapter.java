@@ -10,7 +10,7 @@ import java.lang.reflect.Method;
 
 /**
  * @author ChangCheng Lu
- * @date 2023/8/15 14:42
+ * @date 2023/9/1 9:17
  */
 @AllArgsConstructor
 public class DisposableBeanAdapter implements DisposableBean {
@@ -30,7 +30,7 @@ public class DisposableBeanAdapter implements DisposableBean {
         if (bean instanceof DisposableBean) {
             ((DisposableBean) bean).destroy();
         }
-        if (StrUtil.isNotEmpty(destroyMethodName) && !(bean instanceof DisposableBean && "destroy".equals(destroyMethodName))) {
+        if (StrUtil.isNotBlank(destroyMethodName) && !(bean instanceof DisposableBean && "destroy".equals(destroyMethodName))) {
             Method destroyMethod = bean.getClass().getMethod(destroyMethodName);
             if (null == destroyMethod) {
                 throw new BeansException("Couldn't find a destroy method named '" + destroyMethodName + "' on bean with name '" + beanName + "'");

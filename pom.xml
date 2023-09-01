@@ -21,6 +21,7 @@
         <module>micro-spring-step-10</module>
         <module>micro-spring-step-11</module>
         <module>micro-spring-step-12</module>
+        <module>micro-spring-step-13</module>
     </modules>
 
     <properties>

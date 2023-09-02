@@ -5,7 +5,7 @@ import com.cclu.springframework.beans.factory.ConfigurableListableBeanFactory;
 
 /**
  * @author ChangCheng Lu
- * @date 2023/8/15 14:51
+ * @date 2023/9/2 8:52
  */
 public interface BeanFactoryPostProcessor {
 
@@ -16,5 +16,6 @@ public interface BeanFactoryPostProcessor {
      * @throws BeansException
      */
     void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException;
+
 
 }

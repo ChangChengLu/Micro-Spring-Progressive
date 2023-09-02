@@ -10,14 +10,14 @@ import java.net.URLConnection;
 
 /**
  * @author ChangCheng Lu
- * @date 2023/8/11 16:25
+ * @date 2023/9/2 8:29
  */
 public class UrlResource implements Resource {
 
     private final URL url;
 
     public UrlResource(URL url) {
-        Assert.notNull(url, "URL must not be null");
+        Assert.notNull(url,"URL must not be null");
         this.url = url;
     }
 

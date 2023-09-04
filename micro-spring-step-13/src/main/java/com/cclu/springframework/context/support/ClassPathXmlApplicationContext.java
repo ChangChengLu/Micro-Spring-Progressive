@@ -1,11 +1,10 @@
-package com.cclu.springframework.context.event;
+package com.cclu.springframework.context.support;
 
 import com.cclu.springframework.beans.BeansException;
-import com.cclu.springframework.context.support.AbstractXmlApplicationContext;
 
 /**
  * @author ChangCheng Lu
- * @date 2023/8/15 15:23
+ * @date 2023/9/4 11:37
  */
 public class ClassPathXmlApplicationContext extends AbstractXmlApplicationContext {
 

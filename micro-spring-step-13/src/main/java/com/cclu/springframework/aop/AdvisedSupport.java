@@ -1,11 +1,13 @@
 package com.cclu.springframework.aop;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.aopalliance.intercept.MethodInterceptor;
 
 /**
  * @author ChangCheng Lu
- * @date 2023/8/25 21:16
+ * @date 2023/9/5 10:28
  */
 @Data
 @NoArgsConstructor

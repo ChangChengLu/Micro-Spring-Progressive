@@ -7,7 +7,7 @@ import org.aopalliance.aop.Advice;
 
 /**
  * @author ChangCheng Lu
- * @date 2023/8/31 15:47
+ * @date 2023/9/5 11:14
  *
  * Spring AOP Advisor that can be used for any AspectJ pointcut expression.
  */
@@ -35,4 +35,5 @@ public class AspectJExpressionPointcutAdvisor implements PointAdvisor {
         }
         return pointcut;
     }
+
 }

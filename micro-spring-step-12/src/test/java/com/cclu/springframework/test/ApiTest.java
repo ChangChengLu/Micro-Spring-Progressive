@@ -9,7 +9,7 @@ import com.cclu.springframework.aop.aspectj.AspectJExpressionPointcutAdvisor;
 import com.cclu.springframework.aop.framework.ProxyFactory;
 import com.cclu.springframework.aop.framework.ReflectiveMethodInvocation;
 import com.cclu.springframework.aop.framework.adapter.MethodBeforeAdviceInterceptor;
-import com.cclu.springframework.context.event.ClassPathXmlApplicationContext;
+import com.cclu.springframework.context.support.ClassPathXmlApplicationContext;
 import com.cclu.springframework.test.bean.IUserService;
 import com.cclu.springframework.test.bean.UserService;
 import com.cclu.springframework.test.bean.UserServiceBeforeAdvice;

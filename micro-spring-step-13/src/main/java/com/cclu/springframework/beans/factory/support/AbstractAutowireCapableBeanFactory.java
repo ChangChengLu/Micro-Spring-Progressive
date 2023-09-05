@@ -5,11 +5,8 @@ import cn.hutool.core.util.StrUtil;
 import com.cclu.springframework.beans.BeansException;
 import com.cclu.springframework.beans.PropertyValue;
 import com.cclu.springframework.beans.PropertyValues;
+import com.cclu.springframework.beans.factory.config.*;
 import com.cclu.springframework.beans.factory.*;
-import com.cclu.springframework.beans.factory.config.AutowireCapableBeanFactory;
-import com.cclu.springframework.beans.factory.config.BeanDefinition;
-import com.cclu.springframework.beans.factory.config.BeanPostProcessor;
-import com.cclu.springframework.beans.factory.config.BeanReference;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -30,6 +27,10 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
     protected Object createBean(String beanName, BeanDefinition beanDefinition, Object... args) throws BeansException {
         Object bean;
         try {
+            bean = resolveBeforeInstantiation(beanName, beanDefinition);
+            if (null != bean) {
+                return bean;
+            }
             bean = createBeanInstance(beanName, beanDefinition, args);
             applyPropertyValues(beanName, bean, beanDefinition);
             bean = initializeBean(beanName, bean, beanDefinition);
@@ -41,6 +42,26 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
             registerSingleton(beanName, bean);
         }
         return bean;
+    }
+
+    protected Object resolveBeforeInstantiation(String beanName, BeanDefinition beanDefinition) {
+        Object bean = applyBeanPostProcessorsBeforeInstantiation(beanDefinition.getBeanClass(), beanName);
+        if (null != bean) {
+            bean = applyBeanPostProcessorsAfterInitialization(bean, beanName);
+        }
+        return bean;
+    }
+
+    protected Object applyBeanPostProcessorsBeforeInstantiation(Class<?> beanClass, String beanName) {
+        for (BeanPostProcessor beanPostProcessor: getBeanPostProcessors()) {
+            if (beanPostProcessor instanceof InstantiationAwareBeanPostProcessor) {
+                Object result = ((InstantiationAwareBeanPostProcessor) beanPostProcessor).postProcessBeforeInstantiation(beanClass, beanName);
+                if (null != result) {
+                    return result;
+                }
+            }
+        }
+        return null;
     }
 
     protected Object createBeanInstance(String beanName, BeanDefinition beanDefinition, Object[] args) {

@@ -22,7 +22,7 @@ public class DefaultSingletonBeanRegistry implements SingletonBeanRegistry {
 
     @Override
     public Object getSingleton(String beanName) {
-        if (StrUtil.isNotBlank(beanName)) {
+        if (StrUtil.isBlank(beanName)) {
             throw new BeansException("参数错误");
         }
         return singletonObjects.get(beanName);

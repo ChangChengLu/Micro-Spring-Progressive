@@ -67,12 +67,12 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 
     protected void doLoadBeanDefinitions(InputStream inputStream) throws ClassNotFoundException {
         Document doc = XmlUtil.readXML(inputStream);
-        Element root = doc.getDocumentElement();
+        org.w3c.dom.Element root = doc.getDocumentElement();
         NodeList childNodes = root.getChildNodes();
 
         for (int i = 0; i < childNodes.getLength(); i++) {
             // 判断元素
-            if (!(childNodes.item(i) instanceof Element)) {
+            if (!(childNodes.item(i) instanceof org.w3c.dom.Element)) {
                 continue;
             }
             // 判断对象
@@ -81,7 +81,7 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
             }
 
             // 解析标签
-            Element bean = (Element) childNodes.item(i);
+            org.w3c.dom.Element bean = (org.w3c.dom.Element) childNodes.item(i);
             String id = bean.getAttribute("id");
             String name = bean.getAttribute("name");
             String className = bean.getAttribute("class");
@@ -108,14 +108,14 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 
             // 读取属性并填充
             for (int j = 0; j < bean.getChildNodes().getLength(); j++) {
-                if (!(bean.getChildNodes().item(j) instanceof Element)) {
+                if (!(bean.getChildNodes().item(j) instanceof org.w3c.dom.Element)) {
                     continue;
                 }
                 if (!"property".equals(bean.getChildNodes().item(j).getNodeName())) {
                     continue;
                 }
                 // 解析标签：property
-                Element property = (Element) bean.getChildNodes().item(j);
+                org.w3c.dom.Element property = (Element) bean.getChildNodes().item(j);
                 String attrName = property.getAttribute("name");
                 String attrValue = property.getAttribute("value");
                 String attrRef = property.getAttribute("ref");

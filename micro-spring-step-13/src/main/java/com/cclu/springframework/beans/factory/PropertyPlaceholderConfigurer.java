@@ -48,7 +48,7 @@ public class PropertyPlaceholderConfigurer implements BeanFactoryPostProcessor {
                 BeanDefinition beanDefinition = beanFactory.getBeanDefinition(beanName);
 
                 PropertyValues propertyValues = beanDefinition.getPropertyValues();
-                for (PropertyValue propertyValue : propertyValues.getPropertyValueList()) {
+                for (PropertyValue propertyValue : propertyValues.getPropertyValues()) {
                     Object value = propertyValue.getValue();
                     if (!(value instanceof String)) {
                         continue;
@@ -61,8 +61,8 @@ public class PropertyPlaceholderConfigurer implements BeanFactoryPostProcessor {
                         String propKey = strVal.substring(startIdx+2, stopIdx);
                         String propVal = properties.getProperty(propKey);
                         buffer.replace(startIdx, stopIdx+1, propVal);
+                        propertyValues.addPropertyValue(new PropertyValue(propertyValue.getName(), buffer.toString()));
                     }
-                    propertyValues.addPropertyValue(new PropertyValue(propertyValue.getName(), buffer.toString()));
                 }
             }
         } catch (IOException e) {

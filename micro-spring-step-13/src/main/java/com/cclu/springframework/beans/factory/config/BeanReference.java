@@ -11,6 +11,6 @@ import lombok.Getter;
 @AllArgsConstructor
 public class BeanReference {
 
-    private String beanName;
+    private final String beanName;
 
 }

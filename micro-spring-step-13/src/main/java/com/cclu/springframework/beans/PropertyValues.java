@@ -11,13 +11,16 @@ import java.util.stream.Collectors;
  * @author ChangCheng Lu
  * @date 2023/8/31 21:19
  */
-@Getter
 public class PropertyValues {
 
     private final List<PropertyValue> propertyValueList = new ArrayList<>();
 
     public void addPropertyValue(PropertyValue propertyValue) {
         propertyValueList.add(propertyValue);
+    }
+
+    public PropertyValue[] getPropertyValues() {
+        return this.propertyValueList.toArray(new PropertyValue[0]);
     }
 
     public PropertyValue getPropertyValue(String propertyValueName) {
